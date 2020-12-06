@@ -59,7 +59,7 @@ def check(username, password):
                 print(f"[{now_time}] {username} success.")
                 return
             else:
-                print(f"[{now_time}] {password} failed.")
+                print(f"[{now_time}] {username} failed.")
 
         except Exception as e:
             print(e)
