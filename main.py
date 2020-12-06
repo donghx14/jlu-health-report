@@ -1,4 +1,4 @@
-import requests, json, time, re
+import requests, json, time, re, argparse
 from bs4 import BeautifulSoup
 
 login_url = 'https://ehall.jlu.edu.cn/sso/login'
@@ -14,7 +14,7 @@ User = {
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36 Edg/87.0.664.47'
 
-def main():
+def check(user=User['username'], password=User['password']):
     for _ in range(10):
         try:
             s = requests.Session()
@@ -27,7 +27,7 @@ def main():
             pid = soup.find(name="input", attrs={"name" :"pid"}).get('value')
 
             #登录
-            data = {'username': User['username'], 'password': User['password'], 'pid': pid, 'source': ''}
+            data = {'username': user, 'password': password, 'pid': pid, 'source': ''}
             s.post(url=login_url, data=data, headers=headers)
 
             #获取csrf_token
@@ -72,5 +72,14 @@ def main():
             time.sleep(30)
         print("Failed too many times, exiting...")
 
+
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--user", default="")
+    parser.add_argument("--pwd", default="")
+    args = parser.parse_args()
+
+    if args.user != None and args.pwd != None:
+        check(user=args.user, password=args.pwd)
+    else:
+        check()
