@@ -7,11 +7,6 @@ start_url = 'https://ehall.jlu.edu.cn/infoplus/interface/start'
 render_url = 'https://ehall.jlu.edu.cn/infoplus/interface/render'
 action_url = 'https://ehall.jlu.edu.cn/infoplus/interface/doAction'
 
-User = {
-    'username': '', #用户名
-    'password': '', #密码
-}
-
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36 Edg/87.0.664.47'
 
 def check(user=User['username'], password=User['password']):
@@ -82,4 +77,6 @@ if __name__ == "__main__":
     if args.user != None and args.pwd != None:
         check(user=args.user, password=args.pwd)
     else:
-        check()
+        from users import *
+        for user in users:
+            check(user['username'], user['password'])
