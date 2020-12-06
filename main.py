@@ -9,7 +9,7 @@ action_url = 'https://ehall.jlu.edu.cn/infoplus/interface/doAction'
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36 Edg/87.0.664.47'
 
-def check(user=User['username'], password=User['password']):
+def check(username, password):
     for _ in range(10):
         try:
             s = requests.Session()
@@ -22,7 +22,7 @@ def check(user=User['username'], password=User['password']):
             pid = soup.find(name="input", attrs={"name" :"pid"}).get('value')
 
             #登录
-            data = {'username': user, 'password': password, 'pid': pid, 'source': ''}
+            data = {'username': username, 'password': password, 'pid': pid, 'source': ''}
             s.post(url=login_url, data=data, headers=headers)
 
             #获取csrf_token
@@ -56,10 +56,10 @@ def check(user=User['username'], password=User['password']):
 
             now_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             if json.loads(res.content)['ecode'] == 'SUCCEED':
-                print(f"[{now_time}] {User['username']} success.")
+                print(f"[{now_time}] {username} success.")
                 return
             else:
-                print(f"[{now_time}] {User['username']} failed.")
+                print(f"[{now_time}] {password} failed.")
 
         except Exception as e:
             print(e)
@@ -70,12 +70,13 @@ def check(user=User['username'], password=User['password']):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--user", default="")
-    parser.add_argument("--pwd", default="")
+    parser.add_argument("--user", default=None)
+    parser.add_argument("--pwd", default=None)
     args = parser.parse_args()
-
+    
+    print(args.user, args.pwd)
     if args.user != None and args.pwd != None:
-        check(user=args.user, password=args.pwd)
+        check(username=args.user, password=args.pwd)
     else:
         from users import *
         for user in users:
