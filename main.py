@@ -65,7 +65,7 @@ def check(username, password):
             print(e)
             print("Retrying...")
             time.sleep(30)
-        print("Failed too many times, exiting...")
+    print("Failed too many times, exiting...")
 
 
 if __name__ == "__main__":
@@ -73,8 +73,7 @@ if __name__ == "__main__":
     parser.add_argument("--user", default=None)
     parser.add_argument("--pwd", default=None)
     args = parser.parse_args()
-    
-    print(args.user, args.pwd)
+
     if args.user != None and args.pwd != None:
         check(username=args.user, password=args.pwd)
     else:
