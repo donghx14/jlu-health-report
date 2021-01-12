@@ -1,0 +1,13 @@
+name: 'JLU autocheck bot'
+
+on:
+  schedule:
+    - cron: '5 13 * * *'  # utc+8 21:05
+    - cron: '5 23 * * *'  # utc+8 7:05
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a one-line script
+        run: python main.py --user ${{ secrets.MY_USERNAME }} --pwd ${{ secrets.MY_PASSWORD }}
